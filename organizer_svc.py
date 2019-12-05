@@ -11,7 +11,7 @@ def organize():
     # GETパラメータはparams引数に辞書で指定する
 
     response = requests.get(
-        'http://192.168.1.100:8080/'
+        'http://sensor:8080/'
     )
 
     # レスポンスオブジェクトのjsonメソッドを使うと、
@@ -23,7 +23,7 @@ def organize():
     # print(temperature, humidity)
 
     response_post = requests.post(
-        'http://192.168.1.100:8081/m2x', None,
+        'http://m2x:8080/m2x', None,
         response.json()
     )
     # pprint.pprint(response_post.json())
