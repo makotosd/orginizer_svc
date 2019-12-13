@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/measure_temperature', methods=['POST'])
-def post():
+def measure_temperature():
 
     # sense temperature
     response = requests.get(
@@ -24,7 +24,7 @@ def post():
 
 
 @app.route('/check_temperature', methods=['POST'])
-def post():
+def check_temperature():
 
     # check temperature
     message = requests.post(
