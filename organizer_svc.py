@@ -33,7 +33,7 @@ def check_temperature():
 
     # send message thru line
     response_post = requests.post(
-        'http://line:8080/send_msg/', None,
+        'http://line:8080/send_msg', None,
         message.json()
     )
 
