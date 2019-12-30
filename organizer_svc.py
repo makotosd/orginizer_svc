@@ -6,6 +6,12 @@ from flask import Flask
 app = Flask(__name__)
 
 
+if app.config['ENV'] == "development":
+    CHECK_TEMP_SVC = 'http://192.168.1.100:8082/check_temp'
+else:
+    CHECK_TEMP_SVC = 'http://tempcheck:8080/check_temp'
+
+
 @app.route('/measure_temperature', methods=['POST'])
 def measure_temperature():
 
@@ -23,12 +29,12 @@ def measure_temperature():
     return response_post.json()
 
 
-@app.route('/check_temperature', methods=['POST'])
+@app.route('/check_temperature', methods=['GET'])
 def check_temperature():
 
     # check temperature
-    message = requests.post(
-        'http://tempcheck:8080/check_temp'
+    message = requests.get(
+        CHECK_TEMP_SVC
     )
 
     # send message thru line
