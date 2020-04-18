@@ -20,9 +20,9 @@ def measure_temperature():
         'http://sensor:8080/'
     )
 
-    # send temperature to m2x
+    # send temperature to m2x/machinist
     response_post = requests.post(
-        'http://m2x:8080/m2x', None,
+        'http://m2x:8080/machinist', None,
         response.json()
     )
 
