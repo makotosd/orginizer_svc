@@ -8,25 +8,29 @@ app = Flask(__name__)
 
 if app.config['ENV'] == "development":
     CHECK_TEMP_SVC = 'http://192.168.1.100:8082/check_temp'
+    SENSOR = 'http://192.168.1.100:8083/'
 else:
     CHECK_TEMP_SVC = 'http://tempcheck:8080/check_temp'
+    SENSOR = 'http://sensor:8080/'
 
 
 @app.route('/measure_temperature', methods=['POST'])
 def measure_temperature():
 
     # sense temperature
-    response = requests.get(
-        'http://sensor:8080/'
-    )
-
-    # send temperature to m2x/machinist
-    response_post = requests.post(
-        'http://m2x:8080/machinist', None,
-        response.json()
-    )
-
-    return response_post.json()
+    try:
+        response = requests.get(
+            SENSOR,
+            timeout=1.0
+        )
+        response_post = requests.post(
+            'http://m2x:8080/machinist', None,
+            response.json()
+        )
+        return response_post.json()
+    except Exception as e:
+        print('=== エラー内容 ===')
+        print('type:' + str(type(e)))
 
 
 @app.route('/check_temperature', methods=['GET'])
