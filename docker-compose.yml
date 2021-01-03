@@ -1,0 +1,48 @@
+version: "3"
+services:
+  # docker run -d --rm --name m2x --network sensor-network -p 8081:8080 tmc05/m2x_svc
+  m2x:
+    build: ./m2x_svc
+    image: tmc05/m2x_svc
+    container_name: m2x
+    ports:
+      - 8081:8080
+    volumes:
+      - /home/pi/Project/m2x_svc/credential:/credential:ro
+    restart: always
+
+  # docker run -d --rm --name org --network sensor-network -p 8080:8080 tmc05/organizer_svc
+  organizer:
+    build: ./orginizer_svc
+    image: tmc05/organizer_svc
+    container_name: org
+    ports:
+      - 8080:8080
+    restart: always
+    
+  # docker run -d --rm --name line --network sensor-network tmc05/line_svc
+  line:
+    build: ./line_svc
+    image: tmc05/line_svc
+    container_name: line
+    restart: always
+    
+  # docker run -d --rm --name tempcheck -p 8082:8080 --network sensor-network tmc05/tempcheck_svc
+  tempcheck:
+    build: ./tempcheck_svc
+    image: tmc05/tempcheck_svc
+    container_name: tempcheck
+    ports:
+      - 8082:8080
+    restart: always
+
+  # docker run -d --rm --privileged --network sensor-network --name sensor tmc05/temperature_svc
+  sensor:
+    build: ./temperature_svc/temperatre_svc
+    image: tmc05/temperature_svc
+    container_name: sensor
+    ports:
+      - 8083:8080
+    privileged: true
+    restart: always
+
